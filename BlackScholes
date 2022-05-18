@@ -1,0 +1,40 @@
+##############LANGKAH PERTAMA#################
+import scipy.stats as st
+import numpy as np
+import math
+
+math.sqrt(36)
+
+#call example data
+def bsformula(cp, s, k, rf, t, v, div):
+        """ Price an option using the Black-Scholes model.
+        cp: +1/-1 for call/put
+        s: initial stock price
+        k: strike price
+        t: expiration time
+        v: volatility
+        rf: risk-free rate
+        div: dividend
+        bsformula(+1,49 , 50, 0.05, 0.384, 0.2, 0.0) = FOR CALL EUROPEAN OPTION
+        bsformula(-1,49 , 50, 0.05, 0.384, 0.2, 0.0) = FOR PUT EUROPEAN OPTION
+        
+        """
+
+        d1 = (np.log(s/k)+(rf-div+0.5*v*v)*t)/(v*np.sqrt(t))
+        d2 = d1 - v*np.sqrt(t)
+
+        optprice = (cp*s*np.exp(-div*t)*st.norm.cdf(cp*d1)) - (cp*k*np.exp(-rf*t)*st.norm.cdf(cp*d2))
+        delta = cp*st.norm.cdf(cp*d1)
+        vega  = s*np.sqrt(t)*st.norm.pdf(d1)
+        return optprice, delta, vega
+    #vega = perubahan volatility untuk setiap 1% oleh sebab itu nilai vega yang digunakan itu adalah hasil kodingan vega dikali 1%
+
+        """
+        for call option
+        Out[6]: (2.397877148782463, 0.5214834884870884, 12.095990412118525)
+        for put option
+        Out[8]: (2.4470344484142856, -0.47851651151291164, 12.095990412118525)
+        
+        """
+
+##############LANGKAH KEDUA#######################
